@@ -8,15 +8,21 @@ import "jquery-ui/themes/base/core.css";
 import "jquery-ui/themes/base/theme.css";
 import "jquery-ui/themes/base/sortable.css";
 
-export default function Sortable() {
+export default function Sortable({ 
+	opacity,
+	onChange = f => f
+}) {
 	// [1] ComponentDidMount
 	useEffect(() => {
-
-        $("#sortable").sortable();
+        $("#sortable").sortable({
+        	opacity,
+        	change: (event, ui) => onChange(event, ui) 
+        });
         $("#sortable").disableSelection();
+		
 		// [2] ComponentWillUnmount
-		return ($) => {
-			
+		return () => {
+			$("sortable").sortable("destroy");
 		}
 	}, [])
 
